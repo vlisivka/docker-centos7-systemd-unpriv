@@ -40,6 +40,8 @@ It contains initialization script /init.sh, which allows of fine tuning of conta
     #/usr/lib/systemd/systemd --system --log-target=console --show-status=1
 
 
+To shutdown container, attach to container and shutdown your services (systemctl stop ...), then kill container.
+
 Output of "ps ax" command in container:
 
     [root@74e84fff0fec /]# ps ax
