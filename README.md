@@ -1,3 +1,6 @@
+
+# Description
+
 This is image of CentOS7 with systemd installed, which can be ran in unprivileged mode, for example:
 
     docker run -d  -v /sys/fs/cgroup:/sys/fs/cgroup:ro vlisivka/centos7-systemd-unpriv
@@ -39,8 +42,15 @@ It contains initialization script /init.sh, which allows of fine tuning of conta
     # OR run systemd as regular process (zombie process will not be ripped in this case)
     #/usr/lib/systemd/systemd --system --log-target=console --show-status=1
 
+# Shutdown
 
-To shutdown container, attach to container and shutdown your services (systemctl stop ...), then kill container.
+To shutdown container properly:
+
+  * (docker 1.9) run container with option `docker run --stop-signal=$(kill -l RTMIN+3) CONTAINER`, so command `docker stop` will work properly;
+  * OR kill server with signal RTMIN+3: `docker kill --signal=$(kill -l RTMIN+3) CONTAINER` 
+  * OR attach to container and shutdown your services `systemctl stop SERVICE...`, then kill container.
+
+# Example output
 
 Output of "ps ax" command in container:
 
