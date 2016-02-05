@@ -1,9 +1,10 @@
+[![Docker Repository on Quay](https://quay.io/repository/vlisivka/docker-centos7-systemd-unpriv/status "Docker Repository on Quay")](https://quay.io/repository/vlisivka/docker-centos7-systemd-unpriv)
 
 # Description
 
 This is image of CentOS7 with systemd installed, which can be ran in unprivileged mode, for example:
 
-    docker run -d  -v /sys/fs/cgroup:/sys/fs/cgroup:ro vlisivka/centos7-systemd-unpriv
+    docker run -d  -v /sys/fs/cgroup:/sys/fs/cgroup:ro quay.io/vlisivka/centos7-systemd-unpriv
 
 It contains initialization script /init.sh, which allows of fine tuning of container before systemd is started via /kickstart.d/ directory:
 
