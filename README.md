@@ -15,12 +15,6 @@ It contains initialization script /init.sh, which allows of fine tuning of conta
     # Script which will be run at startup of container
     # Author: Volodymyr M. Lisivka <vlisivka@gmail.com>
     # License: use for any purpose at your own risk.
-    
-    # (Fix for Docker 1.5)
-    # Container inherits limit on number of opened files from Docker, which is very high (1M),
-    # so return it back to sane 1K limit, otherwise processes in container will use too much memory
-    # (size of file descriptor * 1M per each process).
-    ulimit -n 1024
 
     # Systemd cannot use NSPAWN in non-privileged container
     sed -i 's/PrivateTmp/#PrivateTmp/' /usr/lib/systemd/system/*.service
