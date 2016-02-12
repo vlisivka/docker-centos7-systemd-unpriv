@@ -32,7 +32,12 @@ RUN systemctl mask \
 RUN systemctl disable graphical.target && systemctl enable multi-user.target
 
 # Copy initialization script, which will execute kickstart and then start systemd as pid 1
-COPY init.sh /
+COPY files/ /
 
-# Run systemd by default via init.sh script, to start required services
-CMD ["/init.sh"]
+# Run systemd by default via init.sh script, to start required services.
+CMD ["/usr/local/sbin/init.sh"]
+
+# Run container with "--stop-signal=$(kill -l RTMIN+3)" option to
+# shutdown container using "docker stop CONTAINER", OR run
+# /usr/local/sbin/shutdown.sh script as root from container and then kill
+# container using "docker kill CONTAINER".
