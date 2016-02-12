@@ -1,13 +1,13 @@
 FROM centos:7
 MAINTAINER Volodymyr M. Lisivka <vlisivka@gmail.com>
 
-# Systemd needs these directories to be mounted from host
+# Systemd needs /sys/fs/cgroup directoriy to be mounted from host in
+# read-only mode.
 VOLUME /sys/fs/cgroup
-VOLUME /run
 
-# No longer necessary: systemd-container-208.20-6.el7.centos.x86_64 is installed already.
-## Install real systemd instead of fakesystemd
-#RUN yum -y swap -- remove fakesystemd -- install systemd systemd-libs initscripts
+# Systemd needs /run directory to be a mountpoint, otherwise it will try
+# to mount tmpfs here (and will fail).
+VOLUME /run
 
 # Mask (create override which points to /dev/null) system services, which
 # cannot be started in container anyway.
