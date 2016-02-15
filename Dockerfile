@@ -26,7 +26,26 @@ RUN systemctl mask \
     display-manager.service \
     systemd-logind.service \
     network.service \
-    getty.service
+    getty.service \
+    proc-sys-fs-binfmt_misc.automount \
+    kmod-static-nodes.service \
+    rhel-autorelabel.service \
+    rhel-autorelabel-mark.service \
+    rhel-dmesg.service \
+    rhel-import-state.service \
+    rhel-loadmodules.service \
+    systemd-binfmt.service \
+    systemd-hwdb-update.service \
+    systemd-machine-id-commit.service \
+    systemd-modules-load.service \
+    systemd-tmpfiles-setup-dev.service \
+    systemd-udev-trigger.service \
+    systemd-udevd.service \
+    systemd-vconsole-setup.service \
+    system-getty.slice \
+    systemd-udevd-control.socket \
+    systemd-udevd-kernel.socket
+
 
 # Change target init stage from from graphical mode to multiuser text-only mode
 RUN systemctl disable graphical.target && systemctl enable multi-user.target
