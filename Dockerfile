@@ -1,4 +1,4 @@
-FROM centos:7
+FROM docker.io/centos:7
 MAINTAINER Volodymyr M. Lisivka <vlisivka@gmail.com>
 
 # Systemd needs /sys/fs/cgroup directoriy to be mounted from host in
@@ -8,6 +8,9 @@ VOLUME /sys/fs/cgroup
 # Systemd needs /run directory to be a mountpoint, otherwise it will try
 # to mount tmpfs here (and will fail).
 VOLUME /run
+
+# Set TERM variable for console programs
+ENV TERM xterm
 
 # Mask (create override which points to /dev/null) system services, which
 # cannot be started in container anyway.
@@ -44,11 +47,12 @@ RUN systemctl mask \
     systemd-vconsole-setup.service \
     system-getty.slice \
     systemd-udevd-control.socket \
-    systemd-udevd-kernel.socket
-
+    systemd-udevd-kernel.socket && \
+# Remove broken link 
+    rm -f /usr/lib/systemd/system/dbus-org.freedesktop.network1.service && \
 
 # Change target init stage from from graphical mode to multiuser text-only mode
-RUN systemctl disable graphical.target && systemctl enable multi-user.target
+    systemctl set-default multi-user.target
 
 # Copy initialization script, which will execute kickstart and then start systemd as pid 1
 COPY files/ /
