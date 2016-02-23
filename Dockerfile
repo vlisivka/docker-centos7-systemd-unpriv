@@ -30,6 +30,7 @@ RUN systemctl mask \
     systemd-logind.service \
     network.service \
     getty.service \
+    getty@tty1.service \
     proc-sys-fs-binfmt_misc.automount \
     kmod-static-nodes.service \
     rhel-autorelabel.service \
