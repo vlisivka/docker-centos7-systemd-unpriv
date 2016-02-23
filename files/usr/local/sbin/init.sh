@@ -1,5 +1,5 @@
 #!/bin/bash
-set -uex
+set -ue
 # Script which will be run at startup of container
 # Author: Volodymyr M. Lisivka <vlisivka@gmail.com>
 # License: use for any purpose at your own risk.
