@@ -49,8 +49,6 @@ RUN systemctl mask \
     system-getty.slice \
     systemd-udevd-control.socket \
     systemd-udevd-kernel.socket && \
-# Remove broken link 
-    rm -f /usr/lib/systemd/system/dbus-org.freedesktop.network1.service && \
 
 # Change target init stage from from graphical mode to multiuser text-only mode
     systemctl set-default multi-user.target
