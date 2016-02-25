@@ -42,7 +42,7 @@ cp -a files/ "$RPM_BUILD_ROOT"/
 
 %files
 %defattr(-,root,root,-)
-%doc README.md
+%doc README.md LICENSE
 
 %dir /etc/mask.d
 /etc/mask.d/*

@@ -13,6 +13,7 @@ It contains initialization script /usr/sbin/init.sh, which must be ran as
 container initialization script (pid 1), either directly using CMD
 ["/usr/sbin/init.sh"], or from a wrapper script via exec.
 
+# RPM
 As alternative, rpm package can be used to modify an existing container,
 see spec/ directory for details. Dockerfile must contain same
 instructions, except that "copy files/ /" will be replaced by "yum
@@ -23,6 +24,28 @@ system, because installed files will be ran when /usr/sbin/init.sh will
 be executed only, so it safe to add package as dependency to a
 metapackage without checking is hw/vm or container is targetted by
 installation.
+
+Add this text to your Dockerfile to use rpm instead of depending on
+vlisivka/docker-centos7-systemd-unpriv container.
+
+    # NOTE: Systemd needs /sys/fs/cgroup directoriy to be mounted from host in
+    # read-only mode.
+
+    # Systemd needs /run directory to be a mountpoint, otherwise it will try
+    # to mount tmpfs here (and will fail).
+    VOLUME /run
+
+    # Install initialization script, which will execute kickstart and then start systemd as pid 1
+    RUN rpm -vi https://github.com/vlisivka/docker-centos7-systemd-unpriv/releases/download/v1.0/docker-centos7-systemd-unpriv-1.0-1.el7.centos.noarch.rpm
+
+    # Run systemd by default via init.sh script, to start required services.
+    CMD ["/usr/sbin/init.sh"]
+
+    # NOTE: Run container with "--stop-signal=$(kill -l RTMIN+3)" option to
+    # shutdown container using "docker stop CONTAINER", OR run
+    # /usr/local/sbin/shutdown.sh script as root from container and then kill
+    # container using "docker kill CONTAINER".
+
 
 # Logging
 
