@@ -32,9 +32,12 @@ cp -a files/ "$RPM_BUILD_ROOT"/
 %defattr(-,root,root,-)
 %doc README.md
 
-%dir /etc/kickstart.d/
+%dir /etc/mask.d
+/etc/mask.d/*
 
+%dir /etc/kickstart.d/
 /etc/kickstart.d/*.sh
+
 /usr/sbin/*.sh
 
 %changelog
