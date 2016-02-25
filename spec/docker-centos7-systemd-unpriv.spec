@@ -1,10 +1,14 @@
 
 # Build release branch as:
-#   spectool -g --debug --sourcedir --define 'BRANCH v1.0' --define 'VERSION 1.0'  docker-centos7-systemd-unpriv.spec
-#   rpmbuild -bb --define 'BRANCH v1.0' --define 'VERSION 1.0' docker-centos7-systemd-unpriv.spec
+#   spectool -g --debug --sourcedir --define 'VERSION 1.0'  docker-centos7-systemd-unpriv.spec
+#   rpmbuild -bb --define 'VERSION 1.0' docker-centos7-systemd-unpriv.spec
 
-%define git_branch %{?BRANCH}%{!?BRANCH:master}
+# v1.0 or master
+%define git_branch %{?VERSION:v%VERSION}%{!?VERSION:master}
+# 1.0 or 0.0.0
 %define git_version %{?VERSION}%{!?VERSION:0.0.0}
+# 1.0 or master
+%define tar_dir_tag %{?VERSION}%{!?VERSION:master}
 
 Name:           docker-centos7-systemd-unpriv
 Version:        %{git_version}
@@ -26,7 +30,7 @@ In Docker file, use CMD ["/usr/sbin/init.sh"] to start container.
 Place scripts, which must be executed before systemd, into /etc/kickstart.d/ directory.
 
 %prep
-%setup -qn docker-centos7-systemd-unpriv-%{git_branch}
+%setup -qn docker-centos7-systemd-unpriv-%{tar_dir_tag}
 
 %build
 : # Nothing to do
