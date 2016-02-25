@@ -24,9 +24,9 @@ do
   fi
 done
 
-# Run systemd as PID 1
-exec /usr/lib/systemd/systemd
+# Run systemd as PID 1.
+# Keep copy of stdout file descriptor in descriptor 100 for logging to console to work.
+exec /usr/lib/systemd/systemd 100>&1 1>&-
 
 # OR run systemd as regular process (zombie process will not be ripped in this case)
 #/usr/lib/systemd/systemd --system --log-target=console --show-status=1
-

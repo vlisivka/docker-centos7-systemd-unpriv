@@ -24,6 +24,13 @@ be executed only, so it safe to add package as dependency to a
 metapackage without checking is hw/vm or container is targetted by
 installation.
 
+# Logging
+
+Systemd and journald logs are forwarded to console, but option -t must be
+used with docker run command to create /dev/console. Add option
+"Storage=none" to journald configuration to disable writting of logs to
+disk in container, i.e. to use docker/kubernetes logging system only.
+
 # Shutdown
 
 To shutdown container properly:
