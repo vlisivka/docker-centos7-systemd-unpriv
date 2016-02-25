@@ -1,11 +1,19 @@
+
+# Build release branch as:
+#   spectool -g --debug --sourcedir --define 'BRANCH v1.0' --define 'VERSION 1.0'  docker-centos7-systemd-unpriv.spec
+#   rpmbuild -bb --define 'BRANCH v1.0' --define 'VERSION 1.0' docker-centos7-systemd-unpriv.spec
+
+%define git_branch %{?BRANCH}%{!?BRANCH:master}
+%define git_version %{?VERSION}%{!?VERSION:0.0.0}
+
 Name:           docker-centos7-systemd-unpriv
-Version:        0.0.0master
+Version:        %{git_version}
 Release:        1%{?dist}
 Summary:        Strip down systemd and modify services to run in unprivileged container.
 
 License:        GPLv2
 URL:            https://github.com/vlisivka/docker-centos7-systemd-unpriv
-Source0:        https://github.com/vlisivka/docker-centos7-systemd-unpriv/archive/master.tar.gz#/docker-centos7-systemd-unpriv-master.tar.gz
+Source0:        https://github.com/vlisivka/docker-centos7-systemd-unpriv/archive/%{git_branch}.tar.gz#/docker-centos7-systemd-unpriv-%{git_branch}.tar.gz
 Buildarch:      noarch
 
 Requires:       systemd, systemd-libs, sed, findutils
@@ -18,7 +26,7 @@ In Docker file, use CMD ["/usr/sbin/init.sh"] to start container.
 Place scripts, which must be executed before systemd, into /etc/kickstart.d/ directory.
 
 %prep
-%setup -qn docker-centos7-systemd-unpriv-master
+%setup -qn docker-centos7-systemd-unpriv-%{git_branch}
 
 %build
 : # Nothing to do
