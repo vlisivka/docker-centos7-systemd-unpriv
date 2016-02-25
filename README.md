@@ -5,12 +5,13 @@
 # Description
 
 This is image of CentOS7 with systemd installed, which can be ran in
-unprivileged mode, or privileged mode (use with caution: in privileged
-mode systemd can affect host system, use --cap-add=SYS_ADMIN instead).
+unprivileged mode, or even in privileged mode (but use it with caution:
+in privileged mode systemd can affect host system, use
+--cap-add=SYS_ADMIN instead).
 
-It contains initialization script /usr/sbin/init.sh, which allows of fine
-tuning of container before systemd is started via /etc/kickstart.d/
-directory:
+It contains initialization script /usr/sbin/init.sh, which must be ran as
+container initialization script (pid 1), either directly using CMD
+["/usr/sbin/init.sh"], or from a wrapper script via exec.
 
 As alternative, rpm package can be used to modify an existing container,
 see spec/ directory for details. Dockerfile must contain same
