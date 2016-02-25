@@ -2,16 +2,20 @@
 set -ue
 # Script which will be run at startup of container
 # Author: Volodymyr M. Lisivka <vlisivka@gmail.com>
-# License: use for any purpose at your own risk.
+# License: GPLv2
 
 # Execute kickstart scripts, if any, before systemd is started to make final adjustments.
 # NOTE: For one time scripts, which must be ran once at start of the system,
 # write a "first boot" systemd service and then enable it from a Dockerfile or from
 # kickstart script.
-for I in /kickstart.d/*.sh
+for I in /etc/kickstart.d/*.sh
 do
-  if [ -s "$I" ]; then
-    "$I"
+  if [ -s "$I" ]
+  then
+    "$I" || {
+      echo "ERROR: An error in \"$I\" kickstart script: non-zero exit code returned: $?." >&2
+      exit 1 # Fail fast
+    }
   fi
 done
 

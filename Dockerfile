@@ -13,7 +13,7 @@ VOLUME /run
 COPY files/ /
 
 # Run systemd by default via init.sh script, to start required services.
-CMD ["/usr/local/sbin/init.sh"]
+CMD ["/usr/sbin/init.sh"]
 
 # Run container with "--stop-signal=$(kill -l RTMIN+3)" option to
 # shutdown container using "docker stop CONTAINER", OR run
