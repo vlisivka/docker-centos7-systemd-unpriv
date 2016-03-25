@@ -28,14 +28,19 @@ installation.
 Add this text to your Dockerfile to use rpm instead of depending on
 vlisivka/docker-centos7-systemd-unpriv container.
 
+
+    # Instruct systemd to work properly in container. (Required).
+    ENV container=docker
+
     # NOTE: Systemd needs /sys/fs/cgroup directoriy to be mounted from host in
-    # read-only mode.
+    # read-only mode. (Required).
 
     # Systemd needs /run directory to be a mountpoint, otherwise it will try
-    # to mount tmpfs here (and will fail).
+    # to mount tmpfs here (and will fail).  (Required).
     VOLUME /run
 
-    # Install initialization script, which will execute kickstart and then start systemd as pid 1
+    # Install initialization script, which will execute kickstart scripts and
+    # then will start systemd as pid 1.
     RUN rpm -vi https://github.com/vlisivka/docker-centos7-systemd-unpriv/releases/download/v1.0/docker-centos7-systemd-unpriv-1.0-1.el7.centos.noarch.rpm
 
     # Run systemd by default via init.sh script, to start required services.
@@ -46,6 +51,7 @@ vlisivka/docker-centos7-systemd-unpriv container.
     # /usr/local/sbin/shutdown.sh script as root from container and then kill
     # container using "docker kill CONTAINER".
 
+See run.sh script with example how to start container properly.
 
 # Logging
 
@@ -59,5 +65,5 @@ disk in container, i.e. to use docker/kubernetes logging system only.
 To shutdown container properly:
 
   * (docker 1.9) run container with option `docker run --stop-signal=$(kill -l RTMIN+3) CONTAINER`, so command `docker stop` will work properly;
-  * OR kill server with signal RTMIN+3: `docker kill --signal=$(kill -l RTMIN+3) CONTAINER` 
-  * OR attach to container and shutdown your services `systemctl stop SERVICE...`, then kill container (or use /usr/sbin/shutdown.sh script).
+  * OR kill server with signal RTMIN+3: `docker kill --signal=$(kill -l RTMIN+3) CONTAINER` ;
+  * OR attach to container and execute command `halt` .

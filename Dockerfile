@@ -1,6 +1,9 @@
 FROM docker.io/centos:7
 MAINTAINER Volodymyr M. Lisivka <vlisivka@gmail.com>
 
+# Instruct systemd to work properly in container.
+ENV container=docker
+
 # NOTE: Systemd needs /sys/fs/cgroup directoriy to be mounted from host in
 # read-only mode.
 
